@@ -41,6 +41,8 @@ export default function ListArticulos(){
                 </p>
 
             )}
+            <br/>
+            <Link href={"/articulo/create"}> Añadir artículo</Link>
 
         </div>     
     

@@ -22,3 +22,21 @@ export async function DELETE(request){
     return new Response(JSON.stringify({success: "eliminado con éxito"}), {status:200})
 }
 
+export async function POST(request){
+    const body = await request.json()
+    const { titulo, contenido, autor, fecha_publicacion } = body.articulo;
+
+    const articulo = {
+        titulo,
+        contenido,
+        autor,
+        ...(fecha_publicacion && { fecha_publicacion }), //Solo se incluye si esta definido sino sale el de por defecto
+    };
+
+    const{data: postData, error} = await supabase
+    .from("articulo")
+    .insert(articulo)
+
+    return new Response(JSON.stringify({success: "Creado con éxito"}), {status:201})
+}
+
