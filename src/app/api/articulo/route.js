@@ -11,3 +11,14 @@ export async function GET(){
 
     return new Response(JSON.stringify(articulos), {status: 200})
 }
+
+export async function DELETE(request){
+    const body = await request.json()
+    const id = body.id
+    const{data: deleteData, error} = await supabase
+    .from("articulo")
+    .delete()
+    .eq("id",id)
+    return new Response(JSON.stringify({success: "eliminado con éxito"}), {status:200})
+}
+

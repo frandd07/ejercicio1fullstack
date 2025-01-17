@@ -17,6 +17,18 @@ export default function ListArticulos(){
         fetchArticulos()
     },[])
 
+    async function deleteArticulo(deleteArticulo){
+        if(window.confirm("¿Seguro que quieres eliminarlo?")){
+            const response = await fetch("/api/articulo", {
+                method: 'DELETE',
+                headers: {"Content-Type": "application-json"},
+                body: JSON.stringify({id: deleteArticulo})
+            })
+
+            fetchArticulos();
+        }
+    }
+
 
     
     return(
@@ -25,8 +37,9 @@ export default function ListArticulos(){
             {articulos.map(articulo => 
                 <p key={articulo.id}>
                     <Link href={"/articulo/" + articulo.id} >Titulo: {articulo.titulo} | Autor: {articulo.autor} | Fecha de publicación: {articulo.fecha_publicacion} </Link>
-                    
+                    <button onClick={() => deleteArticulo(articulo.id)}>Eliminar</button>
                 </p>
+
             )}
 
         </div>     
