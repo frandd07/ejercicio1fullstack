@@ -15,7 +15,7 @@ export default function CrearArticulo() {
     async function crearArticulo(e) {
         e.preventDefault();
 
-        if (titulo !== "" && contenido !== "" && autor !== "") {
+        if (titulo !== "" && contenido !== "" && autor !== "" && titulo.length < 150) {
             const response = await fetch("/api/articulo", {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },

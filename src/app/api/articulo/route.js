@@ -19,24 +19,39 @@ export async function DELETE(request){
     .from("articulo")
     .delete()
     .eq("id",id)
+
+    if (error) {
+        return new Response(JSON.stringify(error), { status: 404 });
+      }
     return new Response(JSON.stringify({success: "eliminado con éxito"}), {status:200})
 }
 
 export async function POST(request){
     const body = await request.json()
-    const { titulo, contenido, autor, fecha_publicacion } = body.articulo;
+    const articulo = body.articulo;
 
-    const articulo = {
-        titulo,
-        contenido,
-        autor,
-        ...(fecha_publicacion && { fecha_publicacion }), //Solo se incluye si esta definido sino sale el de por defecto
-    };
+    if (titulo !== "" && contenido !== "" && autor !== "" && titulo.length < 150) {
 
-    const{data: postData, error} = await supabase
-    .from("articulo")
-    .insert(articulo)
+        const{data: postData, error} = await supabase
+        .from("articulo")
+        .insert(articulo)
+        
+        if (!error) {
+            return new Response(JSON.stringify({ success: "Creado con éxito" }), {
+              status: 201,
+            });
+          }
+    
+    }else{
+        return new Response(
+            JSON.stringify({
+              error: "Algun campo vacío o titulo supera 150",
+            }),
+            { status: 400 }
+          );
+    }
 
+   
     return new Response(JSON.stringify({success: "Creado con éxito"}), {status:201})
 }
 
